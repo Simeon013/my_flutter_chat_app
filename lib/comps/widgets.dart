@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/auth.dart';
 import 'package:my_flutter_chat_app/comps/styles.dart';
@@ -26,7 +25,7 @@ class ChatWidgets {
                 )),
           ),
           title: Text(title),
-          subtitle: subtitle != null ? Text(subtitle) : null,
+          subtitle:subtitle !=null? Text(subtitle): null,
           trailing: Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Text(time),
@@ -36,15 +35,15 @@ class ChatWidgets {
     );
   }
 
-  static Widget circleProfile({onTap}) {
+  static Widget circleProfile({onTap,name}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: InkWell(
         onTap: onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            CircleAvatar(
+          children:  [
+            const CircleAvatar(
               radius: 25,
               backgroundColor: Colors.grey,
               child: Icon(
@@ -53,23 +52,15 @@ class ChatWidgets {
                 color: Colors.white,
               ),
             ),
-            SizedBox(
-                width: 50,
-                child: Center(
-                    child: Text(
-                  'John',
-                  style:
-                      TextStyle(height: 1.5, fontSize: 12, color: Colors.white),
-                  overflow: TextOverflow.ellipsis,
-                )))
+            SizedBox(width: 50,child: Center(child: Text(name,style: TextStyle(height: 1.5,fontSize: 12,color: Colors.white),overflow: TextOverflow.ellipsis,)))
           ],
         ),
       ),
     );
   }
 
-  static Widget messagesCard(i, message, time) {
-    bool check = i % 2 == 0;
+  static Widget messagesCard(bool check, message, time) {
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -116,6 +107,7 @@ class ChatWidgets {
 
   static messageField({required onSubmit}) {
     final con = TextEditingController();
+
     return Container(
       margin: const EdgeInsets.all(5),
       child: TextField(
@@ -137,7 +129,7 @@ class ChatWidgets {
           child: Theme(
             data: ThemeData.dark(),
             child: Column(
-              children: [
+              children:  [
                 const CircleAvatar(
                   child: Icon(
                     Icons.person,
@@ -147,24 +139,21 @@ class ChatWidgets {
                   radius: 60,
                   backgroundColor: Colors.grey,
                 ),
-                SizedBox(height: 10),
-                Divider(
+                const SizedBox(height: 10),
+                const Divider(
                   color: Colors.white,
                 ),
                 ListTile(
                   leading: Icon(Icons.person),
                   title: Text('Profile'),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProfileScreen()));
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text('Logout'),
-                  onTap: () async => await FirebaseAuth.instance.signOut(),
+                  leading: const Icon(Icons.logout),
+                  title: const Text('Logout'),
+                  onTap: ()async=>await FirebaseAuth.instance.signOut(),
                 )
               ],
             ),
@@ -174,23 +163,22 @@ class ChatWidgets {
     );
   }
 
-  static searchBar(
-    bool open,
-  ) {
+  static searchBar(bool open, ) {
     return AnimatedDialog(
       height: open ? 800 : 0,
       width: open ? 400 : 0,
+
     );
   }
 
   static searchField({Function(String)? onChange}) {
     return Container(
       margin: const EdgeInsets.all(10),
-      decoration: Styles.messageFieldCardStyle(),
       child: TextField(
         onChanged: onChange,
         decoration: Styles.searchTextFieldStyle(),
       ),
+      decoration: Styles.messageFieldCardStyle(),
     );
   }
 }
